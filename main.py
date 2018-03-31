@@ -6,7 +6,7 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 import torch.backends.cudnn as cudnn
-import torch.optim.lr_scheduler.MultiStepLR as MultiStepLR
+
 
 import torchvision
 import torchvision.transforms as transforms
