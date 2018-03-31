@@ -61,6 +61,9 @@ class Bottleneck(nn.Module):
                 nn.Conv2d(in_planes, self.expansion*planes, kernel_size=1, stride=stride, bias=False),
                 nn.BatchNorm2d(self.expansion*planes)
             )
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                init.kaiming_normal(m.weight.data)
 
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
