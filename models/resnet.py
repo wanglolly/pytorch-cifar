@@ -29,6 +29,11 @@ class BasicBlock(nn.Module):
                 nn.Conv2d(in_planes, self.expansion*planes, kernel_size=1, stride=stride, bias=False),
                 nn.BatchNorm2d(self.expansion*planes)
             )
+        _initialize_weights()
+
+    def _initialize_weights(self):
+        for m in self.modules():
+            nn.init.kaiming_normal_(m, mode='fan_out')
 
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
@@ -70,7 +75,7 @@ class ResNet(nn.Module):
     def __init__(self, block, num_blocks, num_classes=10):
         super(ResNet, self).__init__()
         self.in_planes = 64
-        
+
         self.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(64)
         self.layer1 = self._make_layer(block, 64, num_blocks[0], stride=1)
