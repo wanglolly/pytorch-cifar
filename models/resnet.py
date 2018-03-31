@@ -32,7 +32,8 @@ class BasicBlock(nn.Module):
             )
         
         for m in self.modules():
-            init.kaiming_normal(m.weight.data)
+            if isinstance(m, nn.Conv2d):
+                init.kaiming_normal(m.weight.data)
 
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
