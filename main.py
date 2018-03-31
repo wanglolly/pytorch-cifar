@@ -6,6 +6,7 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 import torch.backends.cudnn as cudnn
+import torch.optim.lr_scheduler.MultiStepLR as MultiStepLR
 
 import torchvision
 import torchvision.transforms as transforms
@@ -78,7 +79,8 @@ if use_cuda:
     cudnn.benchmark = True
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=5e-4)
+optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=1e-04)
+scheduler = MultiStepLR(optimizer, milestones=[81,122], gamma=0.1)
 
 # Training
 def train(epoch):
@@ -96,7 +98,7 @@ def train(epoch):
         loss = criterion(outputs, targets)
         loss.backward()
         optimizer.step()
-
+        
         train_loss += loss.data[0]
         _, predicted = torch.max(outputs.data, 1)
         total += targets.size(0)
@@ -104,6 +106,7 @@ def train(epoch):
 
         progress_bar(batch_idx, len(trainloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
             % (train_loss/(batch_idx+1), 100.*correct/total, correct, total))
+    scheduler.step()
 
 def test(epoch):
     global best_acc
@@ -141,6 +144,6 @@ def test(epoch):
         best_acc = acc
 
 
-for epoch in range(start_epoch, start_epoch+10):
+for epoch in range(start_epoch, start_epoch+164):
     train(epoch)
     test(epoch)
