@@ -90,7 +90,7 @@ class ResNet(nn.Module):
         self.linear = nn.Linear(512*block.expansion, num_classes)
 
         for w in self.conv1.weight:
-            for n in w
+            for n in w:
                 init.kaiming_normal(n)
 
     def _make_layer(self, block, planes, num_blocks, stride):
