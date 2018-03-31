@@ -33,7 +33,8 @@ class BasicBlock(nn.Module):
         
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                init.kaiming_normal(m.weight.data)
+                for w in m.weight: 
+                    init.kaiming_normal(w)
 
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
@@ -63,7 +64,8 @@ class Bottleneck(nn.Module):
             )
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
-                init.kaiming_normal(m.weight.data)
+                for w in m.weight: 
+                    init.kaiming_normal(w)
 
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
