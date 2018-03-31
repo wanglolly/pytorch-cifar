@@ -31,10 +31,9 @@ class BasicBlock(nn.Module):
                 nn.BatchNorm2d(self.expansion*planes)
             )
         
-        #for m in self.modules():
-        #    if isinstance(m, nn.Conv2d):
-        #        for w in m.weight: 
-        #            init.kaiming_normal(w)
+        init.kaiming_normal(self.conv1.weight)
+        init.kaiming_normal(self.conv2.weight)
+        
 
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
@@ -62,10 +61,10 @@ class Bottleneck(nn.Module):
                 nn.Conv2d(in_planes, self.expansion*planes, kernel_size=1, stride=stride, bias=False),
                 nn.BatchNorm2d(self.expansion*planes)
             )
-        #for m in self.modules():
-        #    if isinstance(m, nn.Conv2d):
-        #        for w in m.weight: 
-        #            init.kaiming_normal(w)
+        init.kaiming_normal(self.conv1.weight)
+        init.kaiming_normal(self.conv2.weight)
+        init.kaiming_normal(self.conv3.weight)
+
 
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
@@ -88,10 +87,7 @@ class ResNet(nn.Module):
         self.layer3 = self._make_layer(block, 256, num_blocks[2], stride=2)
         self.layer4 = self._make_layer(block, 512, num_blocks[3], stride=2)
         self.linear = nn.Linear(512*block.expansion, num_classes)
-
-        for w in self.conv1.weight:
-            for n in w:
-                init.kaiming_normal(n)
+        init.kaiming_normal(self.conv1.weight)
 
     def _make_layer(self, block, planes, num_blocks, stride):
         strides = [stride] + [1]*(num_blocks-1)
