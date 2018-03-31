@@ -29,7 +29,7 @@ class BasicBlock(nn.Module):
                 nn.Conv2d(in_planes, self.expansion*planes, kernel_size=1, stride=stride, bias=False),
                 nn.BatchNorm2d(self.expansion*planes)
             )
-        _initialize_weights()
+        self._initialize_weights()
 
     def _initialize_weights(self):
         for m in self.modules():
