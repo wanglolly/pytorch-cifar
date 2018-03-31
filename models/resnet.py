@@ -9,7 +9,7 @@ Reference:
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import torch.nn.init as weight_init
+import torch.nn.init as init
 
 from torch.autograd import Variable
 
@@ -30,11 +30,9 @@ class BasicBlock(nn.Module):
                 nn.Conv2d(in_planes, self.expansion*planes, kernel_size=1, stride=stride, bias=False),
                 nn.BatchNorm2d(self.expansion*planes)
             )
-        self._initialize_weights()
-
-    def _initialize_weights(self):
+        
         for m in self.modules():
-            weight_init.kaiming_normal_(m, mode='fan_out')
+            init.kaiming_normal(m.weight.data)
 
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
