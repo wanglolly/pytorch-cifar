@@ -9,7 +9,7 @@ Reference:
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import torch.nn.init
+import torch.nn.init as weight_init
 
 from torch.autograd import Variable
 
@@ -34,7 +34,7 @@ class BasicBlock(nn.Module):
 
     def _initialize_weights(self):
         for m in self.modules():
-            nn.init.kaiming_normal_(m, mode='fan_out')
+            weight_init.kaiming_normal_(m, mode='fan_out')
 
     def forward(self, x):
         out = F.relu(self.bn1(self.conv1(x)))
