@@ -31,7 +31,7 @@ start_epoch = 0  # start from epoch 0 or last checkpoint epoch
 # Data
 print('==> Preparing data..')
 transform_train = transforms.Compose([
-    transforms.RandomCrop(32, padding=4),
+    transforms.RandomCrop(32, [0,0,0,0]),
     transforms.RandomHorizontalFlip(),
     transforms.ToTensor(),
     transforms.Normalize((0.4914, 0.4824, 0.4467), (0.2471, 0.2435, 0.2616)),
@@ -81,7 +81,7 @@ if use_cuda:
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=1e-04)
 scheduler = MultiStepLR(optimizer, milestones=[81,122], gamma=0.1)
-
+net.apply(torch.nn.init.kaiming_normal)
 # Training
 def train(epoch):
     print('\nEpoch: %d' % epoch)
