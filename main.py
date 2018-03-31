@@ -82,7 +82,7 @@ if use_cuda:
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=1e-04)
 scheduler = MultiStepLR(optimizer, milestones=[81,122], gamma=0.1)
-net.apply(torch.nn.init.kaiming_normal)
+
 # Training
 def train(epoch):
     print('\nEpoch: %d' % epoch)
