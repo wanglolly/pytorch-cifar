@@ -16,7 +16,7 @@ import os
 import csv
 import argparse
 
-from models.resnet import ResNet56
+from models.resnet import ResNet110
 from utils import progress_bar
 from torch.autograd import Variable
 
@@ -48,7 +48,7 @@ trainset = torchvision.datasets.CIFAR10(root='./data', train=True, download=True
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=128, shuffle=True, num_workers=2)
 
 testset = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transform_test)
-testloader = torch.utils.data.DataLoader(testset, batch_size=128, shuffle=False, num_workers=2)
+testloader = torch.utils.data.DataLoader(testset, batch_size=100, shuffle=False, num_workers=2)
 
 classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
@@ -65,7 +65,7 @@ else:
     print('==> Building model..')
     # net = VGG('VGG19')
     #net = ResNet20()
-    net = ResNet56()
+    net = ResNet110()
     #net = ResNet110()
     # net = PreActResNet18()
     # net = GoogLeNet()
@@ -89,11 +89,11 @@ scheduler = MultiStepLR(optimizer, milestones=[81,122], gamma=0.1)
  
 
 #Open File
-trainFilename = './Resnet_layer56_train_32.csv'
+trainFilename = './Resnet_layer110_train_32.csv'
 trainFile = open(trainFilename, 'w')
 trainCursor = csv.writer(trainFile)
 
-testFilename = './Resnet_layer56_test_32.csv'
+testFilename = './Resnet_layer110_test_32.csv'
 testFile = open(testFilename, 'w')
 testCursor = csv.writer(testFile)
 
