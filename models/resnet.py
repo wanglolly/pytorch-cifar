@@ -85,7 +85,6 @@ class ResNet(nn.Module):
         self.layer1 = self._make_layer(block, self.in_planes, num_blocks[0], stride=1)
         self.layer2 = self._make_layer(block, self.in_planes * 2, num_blocks[1], stride=2)
         self.layer3 = self._make_layer(block, self.in_planes * 4, num_blocks[2], stride=2)
-        #self.layer4 = self._make_layer(block, 512, num_blocks[3], stride=2)
         self.avgpool = nn.AvgPool2d(8)
         self.linear = nn.Linear(self.in_planes * 4 * block.expansion, num_classes)
         init.kaiming_normal(self.conv1.weight)
@@ -109,7 +108,7 @@ class ResNet(nn.Module):
         print(out.size())
         out = self.avgpool(out)
         print(out.size())
-        out = out.view(out.size(0), -1)
+        #out = out.view(out.size(0), -1)
         print(out.size())
         out = self.linear(out)
         return out
