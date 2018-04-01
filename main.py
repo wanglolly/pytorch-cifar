@@ -16,7 +16,7 @@ import os
 import csv
 import argparse
 
-from models.resnet import ResNet110
+from models.resnet import ResNet20
 from utils import progress_bar
 from torch.autograd import Variable
 
@@ -64,8 +64,8 @@ if args.resume:
 else:
     print('==> Building model..')
     # net = VGG('VGG19')
-    #net = ResNet20()
-    net = ResNet110()
+    net = ResNet20()
+    #net = ResNet56()
     #net = ResNet110()
     # net = PreActResNet18()
     # net = GoogLeNet()
@@ -89,11 +89,11 @@ scheduler = MultiStepLR(optimizer, milestones=[81,122], gamma=0.1)
  
 
 #Open File
-trainFilename = './Resnet_layer110_train_32.csv'
+trainFilename = './Resnet_layer20_train_32.csv'
 trainFile = open(trainFilename, 'w')
 trainCursor = csv.writer(trainFile)
 
-testFilename = './Resnet_layer110_test_32.csv'
+testFilename = './Resnet_layer20_test_32.csv'
 testFile = open(testFilename, 'w')
 testCursor = csv.writer(testFile)
 
