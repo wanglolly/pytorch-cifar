@@ -85,16 +85,20 @@ if use_cuda:
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=1e-04)
 scheduler = MultiStepLR(optimizer, milestones=[81,122], gamma=0.1)
-trainHeader = ['epoch', 'Loss', 'Acc']  
+
  
 
 #Open File
-pathProg = './Resnet_layer20.csv'
-file = open(pathProg, 'w')
-csvCursor = csv.writer(file)
+trainFilename = './Resnet_layer20_train.csv'
+trainFile = open(trainFilename, 'w')
+trainCursor = csv.writer(trainFile)
+
+testFilename = './Resnet_layer20_test.csv'
+testFile = open(testFilename, 'w')
+testCursor = csv.writer(testFile)
 
 # Training
-def train(epoch):
+def train(epoch, filewriter):
     print('\nEpoch: %d' % epoch)
     net.train()
     train_loss = 0
@@ -117,12 +121,11 @@ def train(epoch):
 
         progress_bar(batch_idx, len(trainloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
             % (train_loss/(batch_idx+1), 100.*correct/total, correct, total))
-    Loss = train_loss/(batch_idx+1)
-    Acc = (100.*correct/total)
-    trainHeader = [epoch, Loss, Acc]            
+    trainHeader = [epoch, train_loss/(batch_idx+1), (100.*correct/total)] 
+    filewriter.writerow(trainHeader)           
     scheduler.step()
 
-def test(epoch):
+def test(epoch, filewriter):
     global best_acc
     net.eval()
     test_loss = 0
@@ -142,8 +145,8 @@ def test(epoch):
 
         progress_bar(batch_idx, len(testloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
             % (test_loss/(batch_idx+1), 100.*correct/total, correct, total))
-    testHeader = [(test_loss/(batch_idx+1)), 100.*correct/total]
-    csvCursor.writerow(trainHeader + testHeader)
+    testHeader = [epoch, (test_loss/(batch_idx+1)), 100.*correct/total]
+    filewriter.writerow(testHeader)
 
 
     # Save checkpoint.
@@ -162,5 +165,8 @@ def test(epoch):
 
 
 for epoch in range(start_epoch, start_epoch+10):
-    train(epoch)
-    test(epoch)
+    train(epoch, trainCursor)
+    test(epoch, testCursor)
+
+trainFile.close()
+testFile.close()
