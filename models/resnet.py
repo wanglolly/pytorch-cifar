@@ -78,7 +78,7 @@ class Bottleneck(nn.Module):
 class ResNet(nn.Module):
     def __init__(self, block, num_blocks, num_classes=10):
         super(ResNet, self).__init__()
-        self.in_planes = 16
+        self.in_planes = 64
 
         self.conv1 = nn.Conv2d(3, self.in_planes, kernel_size=3, stride=1, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(self.in_planes)
@@ -108,7 +108,7 @@ class ResNet(nn.Module):
         print(out.size())
         out = self.avgpool(out)
         print(out.size())
-        #out = out.view(out.size(0), -1)
+        out = out.view(out.size(0), -1)
         print(out.size())
         out = self.linear(out)
         return out
