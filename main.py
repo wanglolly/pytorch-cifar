@@ -13,6 +13,7 @@ import torchvision
 import torchvision.transforms as transforms
 
 import os
+import csv
 import argparse
 
 from models.resnet import ResNet20
@@ -64,6 +65,8 @@ else:
     print('==> Building model..')
     # net = VGG('VGG19')
     net = ResNet20()
+    #net = ResNet56()
+    #net = ResNet110()
     # net = PreActResNet18()
     # net = GoogLeNet()
     # net = DenseNet121()
@@ -82,6 +85,11 @@ if use_cuda:
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=1e-04)
 scheduler = MultiStepLR(optimizer, milestones=[81,122], gamma=0.1)
+
+#Open File
+pathProg = './Resnet_layer20.csv'
+file = open(pathProg, 'w')
+csvCursor = csv.writer(file)
 
 # Training
 def train(epoch):
@@ -107,6 +115,8 @@ def train(epoch):
 
         progress_bar(batch_idx, len(trainloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
             % (train_loss/(batch_idx+1), 100.*correct/total, correct, total))
+    
+    trainHeader = [epoch, (train_loss/(batch_idx+1), 100.*correct/total]            
     scheduler.step()
 
 def test(epoch):
@@ -129,6 +139,9 @@ def test(epoch):
 
         progress_bar(batch_idx, len(testloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
             % (test_loss/(batch_idx+1), 100.*correct/total, correct, total))
+    testHeader = [(test_loss/(batch_idx+1), 100.*correct/total]
+    csvCursor.writerow(trainHeader + testHeader)
+
 
     # Save checkpoint.
     acc = 100.*correct/total
