@@ -164,7 +164,7 @@ def test(epoch, filewriter):
         best_acc = acc
 
 
-for epoch in range(start_epoch, start_epoch+10):
+for epoch in range(start_epoch, start_epoch+164):
     train(epoch, trainCursor)
     test(epoch, testCursor)
 
