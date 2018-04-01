@@ -89,11 +89,11 @@ scheduler = MultiStepLR(optimizer, milestones=[81,122], gamma=0.1)
  
 
 #Open File
-trainFilename = './Resnet_layer20_train.csv'
+trainFilename = './Resnet_layer20_train_32.csv'
 trainFile = open(trainFilename, 'w')
 trainCursor = csv.writer(trainFile)
 
-testFilename = './Resnet_layer20_test.csv'
+testFilename = './Resnet_layer20_test_32.csv'
 testFile = open(testFilename, 'w')
 testCursor = csv.writer(testFile)
 
