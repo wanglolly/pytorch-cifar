@@ -121,6 +121,9 @@ def ResNet34():
 def ResNet50():
     return ResNet(Bottleneck, [3,4,6,3])
 
+def ResNet56():
+    return ResNet(Bottleneck, [6,6,6])
+
 def ResNet101():
     return ResNet(Bottleneck, [3,4,23,3])
 
@@ -129,7 +132,7 @@ def ResNet152():
 
 
 def test():
-    net = ResNet20()
+    net = ResNet56()
     y = net(Variable(torch.randn(1,3,32,32)))
     print(y.size())
 
