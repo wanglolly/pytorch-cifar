@@ -16,7 +16,7 @@ import os
 import csv
 import argparse
 
-from models.vanillaCNN import CNN56
+from models.vanillaCNN import CNN110
 from utils import progress_bar
 from torch.autograd import Variable
 
@@ -76,9 +76,9 @@ else:
     # net = DPN92()
     # net = ShuffleNetG2()
     # net = SENet18()
-    net = CNN56()
+    # net = CNN20()
     # net = CNN56()
-    # net = CNN110()
+    net = CNN110()
 
 if use_cuda:
     net.cuda()
@@ -92,11 +92,11 @@ scheduler = MultiStepLR(optimizer, milestones=[81,122], gamma=0.1)
  
 
 #Open File
-trainFilename = './CNN_layer20_train.csv'
+trainFilename = './CNN_layer110_train.csv'
 trainFile = open(trainFilename, 'w')
 trainCursor = csv.writer(trainFile)
 
-testFilename = './CNN_layer20_test.csv'
+testFilename = './CNN_layer110_test.csv'
 testFile = open(testFilename, 'w')
 testCursor = csv.writer(testFile)
 
