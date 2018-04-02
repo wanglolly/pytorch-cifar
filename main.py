@@ -16,7 +16,7 @@ import os
 import csv
 import argparse
 
-from models.resnet import ResNet56
+from models.vanillaCNN import CNN20
 from utils import progress_bar
 from torch.autograd import Variable
 
@@ -64,9 +64,9 @@ if args.resume:
 else:
     print('==> Building model..')
     # net = VGG('VGG19')
-    #net = ResNet20()
-    net = ResNet56()
-    #net = ResNet110()
+    # net = ResNet20()
+    # net = ResNet56()
+    # net = ResNet110()
     # net = PreActResNet18()
     # net = GoogLeNet()
     # net = DenseNet121()
@@ -76,6 +76,9 @@ else:
     # net = DPN92()
     # net = ShuffleNetG2()
     # net = SENet18()
+     net = CNN20()
+    # net = CNN56()
+    # net = CNN110()
 
 if use_cuda:
     net.cuda()
@@ -89,11 +92,11 @@ scheduler = MultiStepLR(optimizer, milestones=[81,122], gamma=0.1)
  
 
 #Open File
-trainFilename = './Resnet_layer56_train_32.csv'
+trainFilename = './CNN_layer20_train.csv'
 trainFile = open(trainFilename, 'w')
 trainCursor = csv.writer(trainFile)
 
-testFilename = './Resnet_layer56_test_32.csv'
+testFilename = './CNN_layer20_test.csv'
 testFile = open(testFilename, 'w')
 testCursor = csv.writer(testFile)
 
