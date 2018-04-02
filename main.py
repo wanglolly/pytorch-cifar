@@ -76,7 +76,7 @@ else:
     # net = DPN92()
     # net = ShuffleNetG2()
     # net = SENet18()
-     net = CNN20()
+    net = CNN20()
     # net = CNN56()
     # net = CNN110()
 
