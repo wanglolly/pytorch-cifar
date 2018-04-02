@@ -16,7 +16,7 @@ import os
 import csv
 import argparse
 
-from models.vanillaCNN import CNN20
+from models.vanillaCNN import CNN56
 from utils import progress_bar
 from torch.autograd import Variable
 
@@ -76,7 +76,7 @@ else:
     # net = DPN92()
     # net = ShuffleNetG2()
     # net = SENet18()
-    net = CNN20()
+    net = CNN56()
     # net = CNN56()
     # net = CNN110()
 
