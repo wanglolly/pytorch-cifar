@@ -41,11 +41,11 @@ class CNN(nn.Module):
 
         self.conv1 = nn.Conv2d(3, self.in_planes, kernel_size=3, stride=1, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(self.in_planes)
-        self.layer1 = self._make_layer(block, self.in_planes, num_blocks[0], stride=1)
-        self.layer2 = self._make_layer(block, self.in_planes * 2, num_blocks[1], stride=2)
-        self.layer3 = self._make_layer(block, self.in_planes * 4, num_blocks[2], stride=2)
-        self.avgpool = nn.AvgPool2d(4)
-        self.linear = nn.Linear(self.in_planes * 4 * block.expansion, num_classes)
+        self.layer1 = self._make_layer(block, 32, num_blocks[0], stride=1)
+        self.layer2 = self._make_layer(block, 64, num_blocks[1], stride=2)
+        self.layer3 = self._make_layer(block, 128, num_blocks[2], stride=2)
+        self.avgpool = nn.AvgPool2d(8)
+        self.linear = nn.Linear(64 * block.expansion, num_classes)
         init.kaiming_normal(self.conv1.weight)
 
     def _make_layer(self, block, planes, num_blocks, stride):
